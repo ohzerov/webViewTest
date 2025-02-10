@@ -5,11 +5,11 @@ import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter_native_timezone/flutter_native_timezone.dart';
 import 'package:uuid/uuid.dart';
 
-abstract class DeviceDataRepository {
-  static Map<String, String?> deviceData = {};
-  static final DeviceInfoPlugin _deviceInfoPlugin = DeviceInfoPlugin();
-  static final Battery _battery = Battery();
-  static Future<String> loadDeviceData() async {
+class DeviceDataRepository {
+  Map<String, String?> _deviceData = {};
+  final DeviceInfoPlugin _deviceInfoPlugin = DeviceInfoPlugin();
+  final Battery _battery = Battery();
+  Future<String> loadDeviceData() async {
     final IosDeviceInfo iosInfo;
     String deviceInfo = '';
     int? batteryLevel;
@@ -43,7 +43,7 @@ abstract class DeviceDataRepository {
       timeZone = '';
     }
 
-    deviceData = {
+    _deviceData = {
       'uid': uid,
       'osVersion': osVersion,
       'devModel': devModel,
@@ -52,7 +52,8 @@ abstract class DeviceDataRepository {
       'tz': timeZone,
     };
 
-    deviceInfo = deviceData.entries.map((e) => '${e.key}=${e.value}').join('&');
+    deviceInfo =
+        _deviceData.entries.map((e) => '${e.key}=${e.value}').join('&');
 
     final base64Info = base64.encode(utf8.encode(deviceInfo));
 

@@ -5,7 +5,7 @@ import 'package:zmtest/features/startup/domain/repository/device_data_repository
 
 class StartupRepository {
   Future<void> fetchLink() async {
-    String data = await DeviceDataRepository.loadDeviceData();
+    String data = await getIt<DeviceDataRepository>().loadDeviceData();
 
     try {
       final response = await getIt<DioClient>()
